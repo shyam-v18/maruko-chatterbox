@@ -17,9 +17,10 @@ interface ChatInterfaceProps {
   messages: ChatMessage[];
   onSendMessage: (message: string) => void;
   onClose: () => void;
+  currentEmotion: string;
 }
 
-export const ChatInterface = ({ messages, onSendMessage, onClose }: ChatInterfaceProps) => {
+export const ChatInterface = ({ messages, onSendMessage, onClose, currentEmotion }: ChatInterfaceProps) => {
   const [inputValue, setInputValue] = useState("");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +65,7 @@ export const ChatInterface = ({ messages, onSendMessage, onClose }: ChatInterfac
   };
 
   return (
-    <Card className="absolute bottom-20 right-0 w-96 h-[500px] shadow-2xl border-2 border-primary/20 bg-white/95 backdrop-blur-md animate-in slide-in-from-bottom-5 duration-300">
+    <Card className="absolute bottom-20 right-0 w-[480px] h-[700px] shadow-2xl border-2 border-primary/20 bg-white/95 backdrop-blur-md animate-in slide-in-from-bottom-5 duration-300">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-primary/10 bg-gradient-to-r from-primary/5 to-primary-glow/5">
         <div className="flex items-center gap-3">
@@ -86,8 +87,33 @@ export const ChatInterface = ({ messages, onSendMessage, onClose }: ChatInterfac
         </Button>
       </div>
 
+      {/* Emotion Display Frame */}
+      <div className="p-4 border-b border-primary/10">
+        <div className="w-full h-[400px] bg-gradient-to-br from-primary/5 to-primary-glow/10 rounded-xl border-2 border-primary/20 flex flex-col items-center justify-center relative overflow-hidden">
+          {/* Floating particles */}
+          <div className="absolute inset-0">
+            <div className="absolute top-4 left-4 w-2 h-2 bg-primary/30 rounded-full animate-bounce"></div>
+            <div className="absolute top-8 right-6 w-1 h-1 bg-primary-glow/50 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-6 left-8 w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce delay-300"></div>
+            <div className="absolute bottom-4 right-4 w-1 h-1 bg-primary-glow/60 rounded-full animate-pulse delay-500"></div>
+          </div>
+          
+          {/* Main emotion display */}
+          <div className="text-center z-10">
+            <div className="text-8xl mb-4 animate-pulse">
+              {getEmotionEmoji(currentEmotion)}
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 border border-primary/20">
+              <p className="text-lg font-semibold text-primary capitalize">
+                {currentEmotion} Mode
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Messages */}
-      <ScrollArea className="flex-1 p-4 h-[350px]" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 p-4 h-[200px]" ref={scrollAreaRef}>
         <div className="space-y-6">
           {messages.map((message) => (
             <div

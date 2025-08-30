@@ -102,6 +102,7 @@ export const MarukoChatbot = () => {
           messages={messages}
           onSendMessage={handleSendMessage}
           onClose={() => setIsOpen(false)}
+          currentEmotion={currentEmotion}
         />
       )}
     </div>

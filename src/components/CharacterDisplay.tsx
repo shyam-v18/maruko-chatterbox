@@ -3,6 +3,26 @@ interface CharacterDisplayProps {
 }
 
 export const CharacterDisplay = ({ emotion }: CharacterDisplayProps) => {
+  // Emotion to emoji mapping
+  const getEmotionEmoji = (emotion: string): string => {
+    const emotionMap: Record<string, string> = {
+      happy: "😊",
+      sad: "😢",
+      excited: "🤩",
+      thinking: "🤔",
+      cheering: "🎉",
+      surprised: "😮",
+      confused: "😕",
+      angry: "😠",
+      sleepy: "😴",
+      love: "💕",
+      worried: "😰",
+      laughing: "😂",
+      default: "🌸"
+    };
+    return emotionMap[emotion.toLowerCase()] || emotionMap.default;
+  };
+
   return (
     <div className="relative">
       {/* Character container with emotion border */}
@@ -18,14 +38,17 @@ export const CharacterDisplay = ({ emotion }: CharacterDisplayProps) => {
         {/* Character image placeholder */}
         <div className="absolute inset-4 rounded-xl bg-white/80 backdrop-blur-sm flex items-center justify-center">
           <div className="text-center">
-            {/* This would be replaced with actual emotion sticker */}
-            <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
-              <span className="text-4xl">🌸</span>
+            {/* Emotion display with emoji */}
+            <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/20 to-primary-glow/20 flex items-center justify-center border-4 border-primary/30 shadow-soft">
+              <span className="text-6xl">{getEmotionEmoji(emotion)}</span>
             </div>
-            <div className="text-lg font-semibold text-foreground/80 capitalize">
-              {emotion}
+            <div className="px-4 py-2 rounded-full bg-primary/10 border border-primary/20 inline-block mb-2">
+              <div className="text-sm font-semibold text-primary capitalize flex items-center gap-2">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                {emotion} Mode
+              </div>
             </div>
-            <div className="text-sm text-muted-foreground mt-2">
+            <div className="text-xs text-muted-foreground">
               Maruko-chan
             </div>
           </div>

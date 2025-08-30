@@ -23,6 +23,26 @@ export const ChatInterface = ({ messages, onSendMessage, onClose }: ChatInterfac
   const [inputValue, setInputValue] = useState("");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+  // Emotion to emoji mapping
+  const getEmotionEmoji = (emotion: string): string => {
+    const emotionMap: Record<string, string> = {
+      happy: "😊",
+      sad: "😢",
+      excited: "🤩",
+      thinking: "🤔",
+      cheering: "🎉",
+      surprised: "😮",
+      confused: "😕",
+      angry: "😠",
+      sleepy: "😴",
+      love: "💕",
+      worried: "😰",
+      laughing: "😂",
+      default: "🌸"
+    };
+    return emotionMap[emotion.toLowerCase()] || emotionMap.default;
+  };
+
   useEffect(() => {
     // Auto-scroll to bottom when new messages arrive
     if (scrollAreaRef.current) {
@@ -68,32 +88,50 @@ export const ChatInterface = ({ messages, onSendMessage, onClose }: ChatInterfac
 
       {/* Messages */}
       <ScrollArea className="flex-1 p-4 h-[350px]" ref={scrollAreaRef}>
-        <div className="space-y-4">
+        <div className="space-y-6">
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex items-start gap-3 ${message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
             >
-              <div
-                className={`max-w-[80%] p-3 rounded-2xl ${
-                  message.sender === 'user'
-                    ? 'bg-primary text-primary-foreground ml-4'
-                    : 'bg-secondary text-secondary-foreground mr-4'
-                }`}
-              >
+              {/* Avatar */}
+              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                message.sender === 'user' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'bg-secondary border-2 border-primary/30'
+              }`}>
+                {message.sender === 'user' ? '👤' : '🌸'}
+              </div>
+
+              {/* Message Container */}
+              <div className={`flex-1 max-w-[75%] ${message.sender === 'user' ? 'text-right' : 'text-left'}`}>
+                {/* Emotion Badge for Maruko */}
                 {message.sender === 'maruko' && message.emotion && (
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs text-muted-foreground capitalize">
-                      {message.emotion}
+                  <div className="inline-flex items-center gap-2 mb-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                    <span className="text-xs font-medium text-primary capitalize">
+                      {getEmotionEmoji(message.emotion)} {message.emotion}
                     </span>
                   </div>
                 )}
-                <p className="text-sm leading-relaxed">{message.text}</p>
-                <div className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString([], { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                  })}
+
+                {/* Message Bubble */}
+                <div
+                  className={`inline-block p-4 rounded-2xl shadow-sm ${
+                    message.sender === 'user'
+                      ? 'bg-gradient-to-r from-primary to-primary-glow text-primary-foreground rounded-br-md'
+                      : 'bg-white border border-primary/10 text-foreground rounded-bl-md'
+                  }`}
+                >
+                  <p className="text-sm leading-relaxed mb-1">{message.text}</p>
+                  <div className={`text-xs mt-2 ${
+                    message.sender === 'user' ? 'text-primary-foreground/70' : 'text-muted-foreground'
+                  }`}>
+                    {message.timestamp.toLocaleTimeString([], { 
+                      hour: '2-digit', 
+                      minute: '2-digit' 
+                    })}
+                  </div>
                 </div>
               </div>
             </div>

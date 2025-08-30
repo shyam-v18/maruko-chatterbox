@@ -65,7 +65,7 @@ export const ChatInterface = ({ messages, onSendMessage, onClose, currentEmotion
   };
 
   return (
-    <Card className="absolute bottom-20 right-0 w-[480px] h-[700px] shadow-2xl border-2 border-primary/20 bg-white/95 backdrop-blur-md animate-in slide-in-from-bottom-5 duration-300">
+    <Card className="absolute bottom-20 right-0 w-[500px] h-[720px] shadow-2xl border-2 border-primary/20 bg-white/95 backdrop-blur-md animate-scale-in duration-300">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-primary/10 bg-gradient-to-r from-primary/5 to-primary-glow/5">
         <div className="flex items-center gap-3">
@@ -100,10 +100,10 @@ export const ChatInterface = ({ messages, onSendMessage, onClose, currentEmotion
           
           {/* Main emotion display */}
           <div className="text-center z-10">
-            <div className="text-8xl mb-4 animate-pulse">
+            <div className="text-8xl mb-4 animate-fade-in">
               {getEmotionEmoji(currentEmotion)}
             </div>
-            <div className="bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 border border-primary/20">
+            <div className="bg-white/90 backdrop-blur-sm rounded-full px-6 py-3 border border-primary/20 shadow-lg">
               <p className="text-lg font-semibold text-primary capitalize">
                 {currentEmotion} Mode
               </p>
@@ -113,7 +113,7 @@ export const ChatInterface = ({ messages, onSendMessage, onClose, currentEmotion
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 p-4 h-[200px]" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 p-4 h-[220px]" ref={scrollAreaRef}>
         <div className="space-y-6">
           {messages.map((message) => (
             <div

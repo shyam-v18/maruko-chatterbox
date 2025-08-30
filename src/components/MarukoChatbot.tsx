@@ -82,11 +82,6 @@ export const MarukoChatbot = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      {/* Character Display - Always visible */}
-      <div className="mb-4">
-        <CharacterDisplay emotion={currentEmotion} />
-      </div>
-
       {/* Chat Toggle Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
